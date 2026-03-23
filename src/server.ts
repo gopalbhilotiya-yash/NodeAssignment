@@ -42,9 +42,13 @@ app.use(
 app.use(requestLogger);
 
 // ─── 4. Swagger Docs ──────────────────────────────────────────────────────────
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-  customSiteTitle: 'E-Commerce Auth API Docs',
-}));
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customSiteTitle: "E-Commerce Auth API Docs ",
+  }),
+);
 
 // ─── 5. Routes ────────────────────────────────────────────────────────────────
 app.use('/api/auth',     authRoutes);
