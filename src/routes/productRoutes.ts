@@ -3,7 +3,7 @@ import { ProductController } from '../controllers/productController';
 import { validate } from '../middlewares/validate';
 import { authGuard } from '../middlewares/authGuard';
 import { validateQuery } from '../middlewares/validateQuery';
-import { createProductSchema, updateProductSchema, paginationSchema, searchSchema } from '../validators/productValidator';
+import { createProductSchema, updateProductSchema, paginationSchema, searchSchema, exportSchema } from '../validators/productValidator';
 
 const router = Router();
 const product = new ProductController();
@@ -142,6 +142,47 @@ router.get('/', validateQuery(paginationSchema), product.getAll.bind(product));
  *               $ref: '#/components/schemas/ErrorResponse'
  */
 router.get('/search', validateQuery(searchSchema), product.search.bind(product));
+
+/**
+ * @swagger
+ * /api/products/export:
+ *   post:
+ *     summary: Export products as XLSX or PDF
+ *     tags: [Products]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ExportProductRequest'
+ *     responses:
+ *       200:
+ *         description: File downloaded successfully
+ *         content:
+ *           application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *           application/pdf:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       400:
+ *         description: No products found or invalid format
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+router.post('/export', authGuard, validate(exportSchema), product.export.bind(product));
 
 /**
  * @swagger

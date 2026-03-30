@@ -153,6 +153,16 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
+        ExportProductRequest: {
+          type: 'object',
+          required: ['format'],
+          properties: {
+            format:   { type: 'string', enum: ['xlsx', 'pdf'], example: 'xlsx' },
+            category: { type: 'string', example: 'Footwear' },
+            minPrice: { type: 'number', example: 10 },
+            maxPrice: { type: 'number', example: 500 },
+          },
+        },
         CreateProductRequest: {
           type: 'object',
           required: ['name', 'description', 'price', 'stock', 'category'],
