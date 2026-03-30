@@ -25,6 +25,14 @@ export const searchSchema = paginationSchema.extend({
   maxPrice: z.coerce.number().positive().optional(),
 });
 
+export const exportSchema = z.object({
+  format:   z.enum(['xlsx', 'pdf'], { errorMap: () => ({ message: 'format must be xlsx or pdf' }) }),
+  category: z.string().optional(),
+  minPrice: z.coerce.number().positive().optional(),
+  maxPrice: z.coerce.number().positive().optional(),
+});
+
+export type ExportDTO        = z.infer<typeof exportSchema>;
 export type CreateProductDTO  = z.infer<typeof createProductSchema>;
 export type UpdateProductDTO  = z.infer<typeof updateProductSchema>;
 export type PaginationDTO     = z.infer<typeof paginationSchema>;

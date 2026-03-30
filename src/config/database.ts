@@ -7,9 +7,9 @@ import { Order, OrderItem } from '../entities/Order';
 export const AppDataSource = new DataSource({
   type: 'sqlite',
   database: 'ecommerce.db',
-  synchronize: true,
+  synchronize: true,            // set to false in production — use migrations instead
   logging: false,
   entities: [User, Product, Cart, CartItem, Order, OrderItem],
-  migrations: [],
+  migrations: ['src/migrations/*.ts'],
   subscribers: [],
 });
